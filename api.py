@@ -66,7 +66,7 @@ def get_leaderboard():
 @app.get("/rank/{username}")
 def get_rank(username: str):
     db = SessionLocal()
-    user = db.query(ScoreDB).filter(ScoreDB.username == username).first()
+    user = db.query(ScoreDB).order_by(ScoreDB.wpm.desc()).filter(ScoreDB.username == username).first()
     if not user:
         db.close()
         raise HTTPException(status_code=404, detail="User not found")
